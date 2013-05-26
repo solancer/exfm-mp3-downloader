@@ -15,10 +15,8 @@ class ExfmDownloader(object):
         try:
             url += '?' + data
             req = urllib2.Request(url, headers=headers)
-
             response_data = urllib2.urlopen(req).read()
             data = json.loads(response_data)
-
             if data['status_code'] != 200:
                 raise ExfmError(data['status_text'])
             return self.downloader(data)
