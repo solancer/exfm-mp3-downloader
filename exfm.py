@@ -45,7 +45,7 @@ class ExfmDownloader(object):
             print "\r--------------------------------------------------------------------"
             print "\r"+song['title']
             urllib.urlretrieve(song['url'], song['title']+'.mp3', self.reporthook)
-        print ''                     # Prevents Download completed!' line from memrging to the download bar
+        print ''                     # Prevents Download completed!' line from merging to the download bar
         print 'Download completed!'
 
     def get_user_loved(self, username='solancer', start=0, results=100):
