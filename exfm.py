@@ -26,11 +26,10 @@ class ExfmDownloader(object):
             return str(e)
 
     def reporthook(self, count, blockSize, totalSize):
-        global startTime
         if count == 0:
-            startTime= time.time()
+            self.startTime= time.time()      #use self instead of declaring a global variable inside classes
             return
-        duration = time.time() - startTime
+        duration = time.time() - self.startTime
         progressSize = int(count*blockSize)
         speed = int(progressSize / (1024 * duration ))
         percent = int(count*blockSize*100/totalSize)
@@ -39,15 +38,16 @@ class ExfmDownloader(object):
         sys.stdout.flush()
 
     def downloader(self, data):
-        songs = data.get('songs')
+        songs = data['songs']
         for song in songs:
-            if bool(re.search(r'api.soundcloud.com', song.get('url'))):
+            if 'api.soundcloud.com' in  song['url']:
                 song['url'] +=  '?consumer_key=leL50hzZ1H8tAdKCLSCnw'
             print "\r--------------------------------------------------------------------"
-            print "\r"+song.get('title')
-            urllib.urlretrieve(song.get('url'), song.get('title')+'.mp3', self.reporthook)
+            print "\r"+song['title']
+            urllib.urlretrieve(song['url'], song['title']+'.mp3', self.reporthook)
+        print ''                     # Prevents Download completed!' line from memrging to the download bar
         print 'Download completed!'
 
     def get_user_loved(self, username='solancer', start=0, results=100):
-        return self._request("/user/%s/loved" % username,
-            data={'start': start, 'results': results})
+        return self._request("/user/%s/loved" % username, 
+                              data={'start': start, 'results': results})
