@@ -48,6 +48,6 @@ class ExfmDownloader(object):
         print ''                     # Prevents Download completed!' line from merging to the download bar
         print 'Download completed!'
 
-    def get_user_loved(self, username='solancer', start=0, results=100):
+    def get_user_loved(self, username='solancer', start=0, results=1000):
         return self._request("/user/%s/loved" % username, 
                               data={'start': start, 'results': results})
